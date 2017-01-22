@@ -1,0 +1,40 @@
+<% include baseStart.ejs %>
+<!-- Content here -->
+
+	<meta property="og:url"           content="http://maxnovikov.com{{ request.get_full_path }}"/>
+	<meta property="og:title"         content="maxnovikov.com - tech blog" />
+	<meta property="og:description"   content="{{ instance.title }}" />
+	<meta property="og:image"         content="{% static 'img/share-1.jpg' %}" />
+
+
+<div class="col-sm-6 col-sm-offset-3">
+<div>
+  <div style="" >
+    <!-- <img class="profile-img" src="{% static 'img/profile.png' %}" align="left"> -->
+    <img src="<%= profile.image %>" class="profile-img" align="left">
+    <br>
+    <h2><b><%= profile.name %></b></h2>
+    <hr style="width: 250px; " align="left">
+    <p><%= profile.occupation %></p>
+    <small><%= profile.city %></small>
+  </div>
+  </div>
+  <div  style="float: left; clear: both; margin-top: 30px;">
+    <h3><b>Skills</b></h3>
+    <hr style="width: 600px">
+    <% profile.get_skill_groups.forEach(function(skillgroup){ %>
+      <h4><b><%= skillgroup.title %></b></h4>
+      <% skillgroup.get_related_skills.forEach(function(skill){ %>
+        <h5><%= skill %></h5>
+      <% }); %>
+      <br>
+    <% }); %>
+
+  </div>
+
+
+</div>
+</div>
+
+<!-- End of content here -->
+<% include baseEnd.ejs %>

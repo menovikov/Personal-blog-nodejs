@@ -1,0 +1,119 @@
+<% include baseStart.ejs %>
+<!-- Content here -->
+
+
+<div style="min-height:67%">
+<% if (posts.length == 0){ %>
+<div class="row">
+  <div class="col-sm-6 col-sm-offset-3">
+    <div class="thumbnail" style="height: 67%">
+      <div class="caption" style="margin-top:100px">
+      <h3>Ooops, seems like there is nothing here yet</h3>
+      </div>
+    </div>
+  </div>
+</div>
+<% } else { %>
+<% posts.forEach(function(item){ %>
+<div class="row">
+  <div class="col-sm-6 col-sm-offset-3">
+    <div class="thumbnail">
+      <div class="caption" >
+        <h2><a href="/blog/<%= item.id %>" class="heading-link"><%= item.title %></a></h2>
+        <br/>
+        <% if (item.image) { %>
+        
+        <div class="image-wrapper">
+        <img src="<%= item.image %>" style="padding: 25px" class="img-responsive img-zoom"/>
+        </div>
+        <% } %>
+        <p><%= item.content.substring(0, 250) %>...</p>
+      </div>
+      <p><small><%= item.created %></small>&emsp;<small><image class="img-read-time" src="/static/img/read-time-watch-1.png" /> <%= item.readTime %></small></p>
+      <% if (item.tags) { %>
+        <% item.tags.forEach(function(tag){ %>
+        <a class="text-tag" href="?tag=<%= tag.title %>"><%= tag.title %></a>
+        <% }); %>
+      <% }; %>
+      	
+
+      <% if (device === 'mobile') { %>
+        <div class="">
+        <br>
+        <div class="share-toggle panel-body">
+          <div class="fb-share-button">
+            <a href="https://www.facebook.com/sharer/sharer.php?u=http://maxnovikov.com/blog/<%= item.id %>" target="_blank">
+            <img  class="share-image" src="/static/img/facebook-icon.png"/>
+            </a>
+          </div>
+          <div class="twttr-share-button">
+            <a href="https://twitter.com/share?url=http://maxnovikov.com/blog/<%= item.id %>">
+              <img class="share-image" src="/static/img/twitter-icon.png">
+            </a>
+          </div>
+        </div>
+      </div>
+      <% } else { %> 
+      <div class="parent-share-toggle panel panel-default">
+      <br>
+        <div class="panel-head">
+          <div class="shareToggleBtn badge">Share</div>
+        </div>
+        <div class="share-toggle panel-body" hidden>
+          <div class="fb-share-button">
+            <a href="https://www.facebook.com/sharer/sharer.php?u=https://maxnovikov.com/blog/<%= item.id %>" target="_blank">
+            <img  class="share-image" src="/static/img/facebook-icon.png"/>
+            </a>
+          </div>
+          <div class="vk-share-button">
+            <script type="text/javascript">
+            document.write(VK.Share.button({
+              url: 'https://maxnovikov.com/blog/<%= item.id %>',
+              // title: 'Заголовок страницы',
+              // image: "{% static 'img/facebook-icon.png' %}",
+              // description: "My page",
+              noparse: false,
+            },
+            { 
+              type: "custom", 
+              text: "<img  class=\"share-image\" src=\"https://vk.com/images/share_32_eng.png\" />", 
+              eng: 1}));
+          </script>
+          </div>
+          <div class="twttr-share-button">
+            <a href="https://twitter.com/share?url=https://maxnovikov.com/blog/<%= item.id %>">
+              <img class="share-image" src="/static/img/twitter-icon.png">
+            </a>
+          </div>
+        </div>
+      </div>
+      <% } %>
+    </div>
+  </div>
+</div>
+<br/>
+<hr/>
+
+<% }) %>
+<% } %>
+</div>
+<script type="text/javascript">
+$(".shareToggleBtn").mouseenter(function(){
+  parent = $(this).parent().parent();
+  parent.children().last().slideToggle()
+});
+$("img").hover(function(){
+   $('.img-zoom').hover(function() {
+        $(this).addClass('transition');
+ 
+    }, function() {
+        $(this).removeClass('transition');
+    });
+});
+</script>
+
+
+
+
+<!-- End of content here -->
+<% include baseEnd.ejs %>
