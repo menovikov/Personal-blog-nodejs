@@ -29,7 +29,7 @@
         <% } %>
         <p><%= item.content.substring(0, 250) %>...</p>
       </div>
-      <p><small><%= item.created %></small>&emsp;<small><image class="img-read-time" src="/static/img/read-time-watch-1.png" /> <%= item.readTime %></small></p>
+      <p><small><%= item.created %></small>&emsp;<small><image class="img-read-time" src="/static/img/read-time-watch-1.png" /> <%= item.read_time %></small></p>
       <% if (item.tags) { %>
         <% item.tags.forEach(function(tag){ %>
         <a class="text-tag" href="?tag=<%= tag.title %>"><%= tag.title %></a>

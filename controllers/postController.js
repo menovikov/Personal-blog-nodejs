@@ -2,17 +2,15 @@ module.exports = function(app){
 
 const fs = require('fs');
 const util = require('util');
-const client = require('../models/database').client;
-
-var PostModel = require('../models/post').PostModel;
-var TagModel = require('../models/tag').TagModel;
-
+const client = require('../models/database');
+const PostModel = require('../models/post');
+const TagModel = require('../models/tag');
 
 var pm = new PostModel(client);
 var tag = new TagModel(client);
 
 	function deviceDetect(req){
-		if (req.device.type === 'desktop') {
+		if (req.device.type === 'desktop'){
 			return 'desktop';
 		} else {
 			return 'mobile';
@@ -29,29 +27,29 @@ var tag = new TagModel(client);
 
 		var device = deviceDetect(req);		
 		var tagTitle = req.query.tag;
+		var posts = [];
+		var q;
 
-		if (typeof(tagTitle)!='undefined') {
-			//
+		if (typeof(tagTitle) != 'undefined'){
+			q = pm.filter(tagTitle);
+		} else {
+			q = pm.all();
 		};
 
-		
 
-		var posts = [];
-		var q = pm.all();
-
-		q.on('row', function(row) {
-			posts.push(row);
+		q.on('row', function(cursor){
+			posts.push(cursor);
 		});
 
-		q.on('end', ()=>{
+		q.on('end', () => {
 			var itemsProcessed = 0;
 
 			posts.forEach((item) => {
 				var tags = [];
 				var qt = pm.getTags(item.id);
 
-				qt.on('row', function(row){
-					tags.push(row);
+				qt.on('row', function(cursor){
+					tags.push(cursor);
 				});
 
 				qt.on('end', () => {
@@ -67,10 +65,7 @@ var tag = new TagModel(client);
 					};
 				});
 			});	
-		});
-		
-
-	
+		});	
 	});
 
 	app.get('/blog/:id', function(req, res, next) {

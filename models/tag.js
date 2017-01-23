@@ -1,5 +1,5 @@
-function TagModel(client){
-	this.all = function(id) {
+module.exports = function TagModel(client){
+	this.all = function() {
 		var query = client.query("SELECT * FROM posts_tag");
 		return query;
 	}
@@ -14,7 +14,4 @@ function TagModel(client){
 			JOIN posts_post ON id = posts_post.id`, [id]);
 		return query;
 	}
-}
-module.exports = {
-	TagModel: TagModel,
 }

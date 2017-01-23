@@ -5,9 +5,7 @@ var client = new pg.Client(conString);
 
 client.connect();
 
-module.exports = {
-	client : client,
-}
+module.exports = client;
 
 
 
